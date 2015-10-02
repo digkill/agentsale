@@ -254,6 +254,8 @@ class BillingRequest extends Model {
                 default:
                     break;
             }
+            
+            Yii::trace($query['url'] . '?' . $query['data'], __METHOD__);
 
             //$this->_rawAnswer = false;
             if ($this->_rawAnswer === false) {
