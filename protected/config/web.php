@@ -27,7 +27,7 @@ $config = [
             'servers' => array(
                 array(
                     'host' => $_ENV['MEMCACHED_1_PORT_11211_TCP_ADDR'],
-                    'host' => $_ENV['MEMCACHED_1_PORT_11211_TCP_PORT'],
+                    'port' => $_ENV['MEMCACHED_1_PORT_11211_TCP_PORT'],
                 ),
             ),
             'useMemcached' => true
@@ -37,7 +37,7 @@ $config = [
             'servers' => array(
                 array(
                     'host' => $_ENV['MEMCACHED_1_PORT_11211_TCP_ADDR'],
-                    'host' => $_ENV['MEMCACHED_1_PORT_11211_TCP_PORT'],
+                    'port' => $_ENV['MEMCACHED_1_PORT_11211_TCP_PORT'],
                 ),
             ),
             'useMemcached' => true,
