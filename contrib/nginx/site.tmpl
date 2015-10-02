@@ -4,11 +4,6 @@ upstream backend-${TEST_URL} {
 }
 
 
-upstream backend-${TEST_URL} {
-    server 127.0.0.1:${WEB1_EXPOSE_PORT};
-    server 127.0.0.1:${WEB2_EXPOSE_PORT};
-}
-
 server {
         listen 80;
         root ${PROJECT_DIR}/data;
