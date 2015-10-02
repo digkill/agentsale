@@ -36,8 +36,8 @@ $config = [
             'class' => 'yii\caching\MemCache',
             'servers' => array(
                 array(
-                    'host' => 'cache.cluster',
-                    'port' => 11211,
+                    'host' => $_ENV['MEMCACHED_1_PORT_11211_TCP_ADDR'],
+                    'host' => $_ENV['MEMCACHED_1_PORT_11211_TCP_PORT'],
                 ),
             ),
             'useMemcached' => true,
