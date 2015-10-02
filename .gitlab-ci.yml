@@ -51,6 +51,7 @@ deploy_branch:
     - env 
     - envsubst < ${PROJECT_DIR}/contrib/nginx/site.tmpl > ${PROJECT_DIR}/config/site.cfg
     - cd ${PROJECT_DIR}
+    - chmod 777 -R data/assets
     - sudo mkdir -p /var/log/services/nginx/${PROJECT_DIR_SUFFIX}/    
     - sudo systemctl restart nginx || sudo journalctl -xn
     - env
