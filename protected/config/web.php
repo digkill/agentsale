@@ -19,7 +19,6 @@ $config = [
             'class' => 'yii\web\CacheSession',
             'cache' => 'sessionCache',
             'cookieParams' => [
-                'domain'=>'.saleagent.domru.ru',
 				'lifetime' => 60*60*24*40,
             ],
 			'timeout' => 60*60*24*40,
