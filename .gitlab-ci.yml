@@ -49,7 +49,6 @@ deploy_branch:
     - export request_filename=\$request_filename #envsubst eats my variable. that cant be changed. http://stackoverflow.com/questions/2914220/
     - export upstream_addr=\$upstream_addr #envsubst eats my variable. that cant be changed. http://stackoverflow.com/questions/2914220/
     - env 
-    - mkdir -p ${PROJECT_DIR}/config/
     - envsubst < ${PROJECT_DIR}/contrib/nginx/site.tmpl > ${PROJECT_DIR}/config/site.cfg
     - cd ${PROJECT_DIR}
     - sudo mkdir -p /var/log/services/nginx/${PROJECT_DIR_SUFFIX}/    
