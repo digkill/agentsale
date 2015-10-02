@@ -1,0 +1,44 @@
+upstream backend-${TEST_URL} {
+    server 127.0.0.1:${WEB1_EXPOSE_PORT};
+    server 127.0.0.1:${WEB2_EXPOSE_PORT};
+}
+
+
+server {
+        listen 80;
+        root ${PROJECT_DIR}/frontend/web;
+        index index.html index.php;
+        server_name ${TEST_URL} ${CI_BUILD_REF_NAME}.${PROJECT_NAME};
+        location / { if (!-e $request_filename){ rewrite ^(.*)$ /index.php; } }
+        location ~ \.php$ {
+                include fastcgi.conf;
+                include fastcgi_params;
+                add_header X-Backend-Server $upstream_addr;
+                fastcgi_pass backend-${TEST_URL};
+        }
+
+        access_log /var/log/services/nginx/${PROJECT_DIR_SUFFIX}/access.log;
+        error_log /var/log/services/nginx/${PROJECT_DIR_SUFFIX}/nginx-error.log info;
+}
+
+server {
+        listen 443;
+        root ${PROJECT_DIR}/frontend/web;
+        index index.html index.php;
+        server_name ${TEST_URL} ${CI_BUILD_REF_NAME}.${PROJECT_NAME};
+
+        ssl on;
+        ssl_certificate /etc/nginx/ssl/server.crt;
+        ssl_certificate_key /etc/nginx/ssl/server.key;
+
+        location / { if (!-e $request_filename){ rewrite ^(.*)$ /index.php; } }
+        location ~ \.php$ {
+                include fastcgi.conf;
+                include fastcgi_params;
+                add_header X-Backend-Server $upstream_addr;
+                fastcgi_pass backend-${TEST_URL};
+        }
+
+        access_log /var/log/services/nginx/${PROJECT_DIR_SUFFIX}/access-ssl.log;
+        error_log /var/log/services/nginx/${PROJECT_DIR_SUFFIX}/nginx-error.log info;
+}

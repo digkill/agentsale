@@ -1,0 +1,70 @@
+variables:
+  BUILD_DIR: '/var/www/builds'
+  BUILD_HOST: 't2.ertelecom.ru'
+  DEMO_LIFE_TIME: '86400'
+  DNS_SERVER: '127.0.0.1'
+  DNS_KEY_FILE: '/etc/bind/Kdnsupdater.+157+63773.private'
+  SHARED_DIR_BASE: '/var/shared'
+
+
+before_script:
+  - export PROJECT_NAME=`basename $CI_PROJECT_DIR|sed s/\\\./-/`
+  - export PROJECT_GROUP=`echo $CI_PROJECT_DIR | awk -F'/' '{print $(NF-1)}' | tr 'A-Z' 'a-z'`
+  - export TEST_URL=${CI_BUILD_REF_NAME}.${PROJECT_NAME}.${PROJECT_GROUP}.${BUILD_HOST}
+  - export MY_IP=`ip r get 8.8.8.8|grep src|awk '{print $7}'`
+  - export PROJECT_DIR_SUFFIX=${PROJECT_GROUP}/${PROJECT_NAME}/${CI_BUILD_REF_NAME}
+  - export SHARED_DIR=${SHARED_DIR_BASE}/${PROJECT_GROUP}/${PROJECT_NAME}/${CI_BUILD_REF_NAME}
+  - export PROJECT_DIR=${BUILD_DIR}/${PROJECT_GROUP}/${PROJECT_NAME}/${CI_BUILD_REF_NAME}
+  - export CONTAINER_PRJ="`echo ${PROJECT_GROUP}${PROJECT_NAME}${CI_BUILD_REF_NAME}|sed 's/-//g'`"
+  - sudo chown $USER -R ${BUILD_DIR}/ #make sure we own builds directory
+  - env
+
+stages:
+  - build
+  - deploy_branch
+
+build:
+  type: build
+  script:
+    - mkdir -p ${SHARED_DIR}
+    - mkdir -p ${PROJECT_DIR} # create project ref build
+    - rsync -ra --exclude .git . ${PROJECT_DIR}/   #sync project ref 
+    - ssh-keyscan -p 10022 gitlab.ertelecom.ru > ~/.ssh/known_hosts 
+    - cd ${PROJECT_DIR}
+    - cd protected
+    - php -r "readfile('https://getcomposer.org/installer');" | php
+    - php composer.phar global require "fxp/composer-asset-plugin:~1.0.3"
+    - php composer.phar install        
+    - env
+    
+deploy_branch:
+  type: deploy_branch
+  script:
+    - mkdir -p ${PROJECT_DIR}/config
+    - envsubst < contrib/docker-compose/docker-compose.tmpl > ${PROJECT_DIR}/config/docker-compose.yml
+    - cd ${PROJECT_DIR}/config/
+    - sudo docker-compose -p ${CONTAINER_PRJ} up -d
+    - export WEB1_EXPOSE_PORT=`sudo docker inspect --format='{{(index (index .NetworkSettings.Ports "9000/tcp") 0).HostPort}}' ${CONTAINER_PRJ}_web1_1`
+    - export WEB2_EXPOSE_PORT=`sudo docker inspect --format='{{(index (index .NetworkSettings.Ports "9000/tcp") 0).HostPort}}' ${CONTAINER_PRJ}_web2_1`
+    - export request_filename=\$request_filename #envsubst eats my variable. that cant be changed. http://stackoverflow.com/questions/2914220/
+    - export upstream_addr=\$upstream_addr #envsubst eats my variable. that cant be changed. http://stackoverflow.com/questions/2914220/
+    - env 
+    - mkdir -p ${PROJECT_DIR}/config/
+    - envsubst < ${PROJECT_DIR}/contrib/nginx/site.tmpl > ${PROJECT_DIR}/config/site.cfg
+    - cd ${PROJECT_DIR}
+    - sudo mkdir -p /var/log/services/nginx/${PROJECT_DIR_SUFFIX}/    
+    - sudo systemctl restart nginx || sudo journalctl -xn
+    - env
+  only:
+    - master
+    - /^dev-.*$/
+    - /^web-.*$/
+
+register_dns_name:
+  type: deploy_branch
+  script:
+    - echo -e "server ${DNS_SERVER} 53 \nupdate add ${TEST_URL} ${DEMO_LIFE_TIME} A ${MY_IP}\nsend\n"| nsupdate -k ${DNS_KEY_FILE} -v
+  only:
+    - master
+    - /^dev-.*$/
+    - /^web-.*$/

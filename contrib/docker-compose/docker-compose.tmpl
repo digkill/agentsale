@@ -1,0 +1,32 @@
+web1:
+  image: dhub.ertelecom.ru/shirokih/php:5.6-fpm
+  ports:
+   - "9000"
+  volumes:
+   - ${PROJECT_DIR}:${PROJECT_DIR}
+   - ${SHARED_DIR}:/var/shared
+  links:
+   - mysql
+   - memcached
+
+web2:
+  image: dhub.ertelecom.ru/shirokih/php:5.6-fpm
+  ports:
+   - "9000"
+  volumes:
+   - ${PROJECT_DIR}:${PROJECT_DIR}
+   - ${SHARED_DIR}:/var/shared
+  links:
+   - mysql
+   - memcached
+
+mysql:
+  image: mysql:5.6
+  environment:
+    MYSQL_DATABASE: app_development
+    MYSQL_USER: mysql
+    DATABASE_PASSWORD: onetwo
+    MYSQL_ROOT_PASSWORD: onetwo
+
+memcached:
+  image: memcached:1.4
