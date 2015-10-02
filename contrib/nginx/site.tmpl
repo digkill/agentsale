@@ -23,7 +23,7 @@ server {
 
 server {
         listen 443;
-        root ${PROJECT_DIR}/frontend/web;
+        root ${PROJECT_DIR}/data;
         index index.html index.php;
         server_name ${TEST_URL} ${CI_BUILD_REF_NAME}.${PROJECT_NAME};
 
