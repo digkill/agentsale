@@ -1,12 +1,11 @@
 <?php
-
 $params = require(__DIR__ . '/params.php');
 
 $config = [
     'id' => 'requestService',
     'basePath' => dirname(__DIR__),
     'language' => 'ru-RU',
-    'bootstrap' => ['log'],   
+    'bootstrap' => ['log'],
     'modules' => [
         'debug' => [
             'class' => 'yii\debug\Module',
@@ -19,9 +18,9 @@ $config = [
             'class' => 'yii\web\CacheSession',
             'cache' => 'sessionCache',
             'cookieParams' => [
-				'lifetime' => 60*60*24*40,
+                'lifetime' => 60 * 60 * 24 * 40,
             ],
-			'timeout' => 60*60*24*40,
+            'timeout' => 60 * 60 * 24 * 40,
         ],
         'sessionCache' => [
             'class' => 'yii\caching\MemCache',
@@ -32,7 +31,7 @@ $config = [
                 ),
             ),
             'useMemcached' => true
-        ],        
+        ],
         'cache' => [
             'class' => 'yii\caching\MemCache',
             'servers' => array(
@@ -41,9 +40,9 @@ $config = [
                     'port' => 11211,
                 ),
             ),
-			'useMemcached' => true,
+            'useMemcached' => true,
         ],
-		'request' => [
+        'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'df32ew32s@#2w45e_*^*%*&87',
         ],
@@ -62,22 +61,22 @@ $config = [
             'useFileTransport' => false,
         ],
         'log' => [
-            /*'traceLevel' => YII_DEBUG ? 3 : 0,
+            'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
-            ],*/
+            ],
             'targets' => [
                 'email' => [
                     'class' => 'yii\log\EmailTarget',
-                    'mailer' =>'mailer',
+                    'mailer' => 'mailer',
                     'levels' => ['error', 'warning'],
                     'message' => [
                         'from' => 'saleagent@domru.ru', 'to' => 'ktc_rassylka_veb-programmisty@domru.ru',
                         'subject' => 'Ошибка SaleAgent',
-                    ],                   
+                    ],
                 ],
             ],
         ],
@@ -99,7 +98,7 @@ $config = [
                 'get-packages' => 'site/getpackages',
                 'check-agreement' => 'site/checkagreement',
                 '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
-                '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',                
+                '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>'
@@ -127,19 +126,19 @@ $config = [
                 'domain' => 'perm',
             ),
             'method' => 'GET',
-        ),        
+        ),
     ],
     'params' => $params,
 ];
 
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
-    /*$config['bootstrap'][] = 'debug';
-    $config['modules']['debug']['class'] = 'yii\debug\Module';*/
+    $config['bootstrap'][] = 'debug';
+    $config['modules']['debug']['class'] = 'yii\debug\Module';
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = 'yii\gii\Module';
-    
+
     $config['modules']['debug']['allowedIPs'] = ['*'];
 }
 
