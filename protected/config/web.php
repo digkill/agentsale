@@ -7,12 +7,12 @@ $config = [
     'basePath' => dirname(__DIR__),
     'language' => 'ru-RU',
     'bootstrap' => ['log'],   
-    /*'modules' => [
+    'modules' => [
         'debug' => [
             'class' => 'yii\debug\Module',
             'allowedIPs' => ['*']
         ]
-    ],*/
+    ],
     'components' => [
         'session' => [
             'name' => 'PHPSESSID',
