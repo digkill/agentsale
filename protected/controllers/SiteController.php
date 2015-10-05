@@ -33,7 +33,7 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                ],
+                ], 
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
