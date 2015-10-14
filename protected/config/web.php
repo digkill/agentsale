@@ -108,16 +108,7 @@ $config = [
             'class' => 'app\components\ErConsoleApiClient',
             '_auth' => array('user' => 'sa', 'api_id' => '5H1KAXS70IFU'),
             '_city' => 'perm'
-        ),
-        'erbilling' => array(
-            'class' => 'app\components\BillingRequest',
-            'default_query' => array(
-                'url' => 'https://{domain}.db.ertelecom.ru/cgi-bin/ppo/',
-                'alias' => 'es_webface',
-                'domain' => 'perm',
-            ),
-            'method' => 'GET',
-        ),
+        ),        
         'billing' => array(
             'class' => 'app\components\BillingRequest',
             'default_query' => array(

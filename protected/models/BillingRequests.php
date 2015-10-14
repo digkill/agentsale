@@ -25,7 +25,7 @@ class BillingRequests extends Model {
 
         $domain = Yii::$app->session->get('domain');        
 
-        $billingResult = Yii::$app->erbilling
+        $billingResult = Yii::$app->billing
                 ->domain($domain)
                 ->alias('es_webface')
                 ->package('get_agr_for_client')
@@ -92,7 +92,7 @@ class BillingRequests extends Model {
     private function _checkAddress($data, $city = null) {
         if (!$city) $city = Yii::$app->session->get('domain');
 
-        $query = Yii::$app->erbilling
+        $query = Yii::$app->billing
                     ->domain($city)
                     ->alias('es_webface')
                     ->package('web_clients_create')
