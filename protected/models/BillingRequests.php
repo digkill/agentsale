@@ -89,19 +89,18 @@ class BillingRequests extends Model {
      * @param string $city
      * @return object
      */
-    private function _checkAddress($data, $city = null) {
-        if (!$city) $city = Yii::$app->session->get('domain');
-
+    private function _checkAddress($data, $city)
+    {
         $query = Yii::$app->billing
-                    ->domain($city)
-                    ->alias('es_webface')
-                    ->package('web_clients_create')
-                    ->procedure('check_connect')
-                    ->data($data)
-                    ->fire(true);
+            ->domain($city)
+            ->alias('es_webface')
+            ->package('web_clients_create')
+            ->procedure('check_connect')
+            ->data($data)
+            ->fire(true);
         return $query;
     }
-    
+
     /**
      * Получение пакетов услуг
      * 
