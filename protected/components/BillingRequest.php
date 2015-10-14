@@ -490,7 +490,7 @@ class BillingRequest extends Model {
         //Проверяем ORA только в теге text
         $mas = explode('<text>', $string);
         if (isset($mas[1])) {
-            $textTagArr = explode('</text>', $mas[1]);
+            $textTagArr = split('</text>', $mas[1]);
             if (isset($textTagArr[0])) {
                 $textTag = $textTagArr[0];
                 Yii::trace($textTag);
