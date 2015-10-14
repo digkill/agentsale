@@ -224,7 +224,7 @@ class BillingRequests extends Model {
                 ->alias('es_webface')
                 ->package('web_cabinet')
                 ->procedure('get_info')
-                ->data(
+                ->data( 
                         array(
                             'access_token' => Yii::$app->session->get('token'),
                             'params' => 'ds_create_agr',
