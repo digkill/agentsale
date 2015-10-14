@@ -94,7 +94,7 @@ class BillingRequests extends Model {
 
         $query = Yii::$app->erbilling
                     ->domain($city)
-                    ->alias('excells')
+                    ->alias('es_webface')
                     ->package('web_clients_create')
                     ->procedure('check_connect')
                     ->data($data)
@@ -112,7 +112,7 @@ class BillingRequests extends Model {
 
         $query = Yii::$app->billing
                 ->domain(Yii::$app->session->get('domain'))
-                ->alias('excells')
+                ->alias('es_webface')
                 ->package('web_cabinet')
                 ->procedure('get_info')
                 ->data(
@@ -151,7 +151,7 @@ class BillingRequests extends Model {
         
     $query = Yii::$app->billing
                 ->domain(Yii::$app->session->get('domain'))
-                ->alias('excells')
+                ->alias('es_webface')
                 ->package('web_cabinet')
                 ->procedure('get_info')
                 ->data(
@@ -177,7 +177,7 @@ class BillingRequests extends Model {
         
         $query = Yii::$app->billing
                 ->domain(Yii::$app->session->get('domain'))
-                ->alias('excells')
+                ->alias('es_webface')
                 ->package('web_cabinet')
                 ->procedure('get_info')
                 ->data(
@@ -221,7 +221,7 @@ class BillingRequests extends Model {
         
         $query = Yii::$app->billing
                 ->domain(Yii::$app->session->get('domain'))
-                ->alias('excells')
+                ->alias('es_webface')
                 ->package('web_cabinet')
                 ->procedure('get_info')
                 ->data(

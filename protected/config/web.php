@@ -113,7 +113,7 @@ $config = [
             'class' => 'app\components\BillingRequest',
             'default_query' => array(
                 'url' => 'https://{domain}.db.ertelecom.ru/cgi-bin/ppo/',
-                'alias' => 'excells',
+                'alias' => 'es_webface',
                 'domain' => 'perm',
             ),
             'method' => 'GET',
@@ -122,7 +122,7 @@ $config = [
             'class' => 'app\components\BillingRequest',
             'default_query' => array(
                 'url' => 'https://{domain}.db.ertelecom.ru/cgi-bin/ppo/',
-                'alias' => 'excells',
+                'alias' => 'es_webface',
                 'domain' => 'perm',
             ),
             'method' => 'GET',
