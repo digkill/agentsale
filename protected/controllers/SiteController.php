@@ -112,6 +112,14 @@ class SiteController extends Controller {
 JS;
         $this->getView()->registerJs($js);
 
+        $this->getView()->registerJsFile('//frontend.web-2666.poll.web.t2.ertelecom.ru/api/v1/qRequest.js', ['position' => \yii\web\View::POS_END]);        
+        $this->getView()->registerJs("var qReq = new qRequest('" . Yii::$app->session->get('domain') . "', '" . Yii::$app->user->identity->username . "', 'SaleAgent');
+            qReq.init();
+            qReq.setReminder(1);
+            qReq.getRandom();",
+            \yii\web\View::POS_END
+        );
+        
         $formData = Yii::$app->session->get('formData');
         if(isset($formData['street_name']))
             $this->getView()->registerJs("EYii.val=$.parseJSON('" . json_encode(array('street_id' => $formData['street'], 'street_name' => $formData['street_name'], 'house_number' => $formData['RequestForm']['house'])) . "')");
