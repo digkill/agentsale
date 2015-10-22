@@ -76,7 +76,7 @@ SCRIPT;
                         ?>
                         
                         <?= Select2::widget([
-                            'name' => 'street',
+                            'name' => 'street-select',
                             'id' => 'street-select',                            
                             'options' => [
                                 'placeholder' => $model->getAttributeLabel('street'),                                 
