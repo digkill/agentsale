@@ -112,7 +112,7 @@ class SiteController extends Controller {
 JS;
         $this->getView()->registerJs($js);
 
-        $this->getView()->registerJsFile('//frontend.web-2666.poll.web.t2.ertelecom.ru/api/v1/qRequest.js', ['position' => \yii\web\View::POS_END]);        
+        $this->getView()->registerJsFile('//frontend.master.poll.web.t2.ertelecom.ru/api/v1/qRequest.js', ['position' => \yii\web\View::POS_END]);        
         $this->getView()->registerJs("var qReq = new qRequest('" . Yii::$app->session->get('domain') . "', '" . Yii::$app->user->identity->username . "', 'SaleAgent');
             qReq.init();
             qReq.setReminder(1);
