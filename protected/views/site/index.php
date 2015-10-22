@@ -76,7 +76,7 @@ SCRIPT;
                         ?>
                         
                         <?= Select2::widget([
-                            'name' => 'street-select',
+                            'name' => 'street',
                             'id' => 'street-select',                            
                             'options' => [
                                 'placeholder' => $model->getAttributeLabel('street'),                                 
@@ -99,13 +99,14 @@ SCRIPT;
                     <div class="col-xs-6" style="padding-left:30px;padding-right:25px;">                       
                                               
                         <?= $form->field($model, 'house', ['template' => "{input}"])->widget(DepDrop::classname(), [
-                                'options' => [                                    
-                                    'name' => 'house',
-                                    'id' => 'house',                                    
-                                ],                                
+                                'name' => 'house',
+                                'id' => 'house',
+                                'data'=> [],
+                                'options' => ['placeholder' => 'Дом'],
+                                'type' => DepDrop::TYPE_DEFAULT,
+                                'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
                                 'pluginOptions'=>[
                                         'depends'=>['street-select'],
-                                        'placeholder' => 'Дом',
                                         'url' => Url::to(['/get-houses']),
                                         'loadingText' => 'Загрузка ...',
                                 ]
