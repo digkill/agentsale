@@ -25,14 +25,14 @@ class BillingRequests extends Model {
 
         $domain = Yii::$app->session->get('domain');        
 
-        $billingResult = Yii::$app->billing
+        $billingResult = Yii::$app->erbilling
                 ->domain($domain)
                 ->alias('es_webface')
                 ->package('get_agr_for_client')
                 ->procedure('house_list')
                 ->data(array('street_id$i' => $street_id))
                 ->fire();       
-      
+		
         $houseList = array();
         
         if (isset($billingResult->houses) && ($billingResult != false)) {
@@ -89,18 +89,19 @@ class BillingRequests extends Model {
      * @param string $city
      * @return object
      */
-    private function _checkAddress($data, $city)
-    {
-        $query = Yii::$app->billing
-            ->domain($city)
-            ->alias('es_webface')
-            ->package('web_clients_create')
-            ->procedure('check_connect')
-            ->data($data)
-            ->fire(true);
+    private function _checkAddress($data, $city = null) {
+        if (!$city) $city = Yii::$app->session->get('domain');
+
+        $query = Yii::$app->erbilling
+                    ->domain($city)
+                    ->alias('es_webface')
+                    ->package('web_clients_create')
+                    ->procedure('check_connect')
+                    ->data($data)
+                    ->fire(true);
         return $query;
     }
-
+    
     /**
      * Получение пакетов услуг
      * 
@@ -223,7 +224,7 @@ class BillingRequests extends Model {
                 ->alias('es_webface')
                 ->package('web_cabinet')
                 ->procedure('get_info')
-                ->data( 
+                ->data(
                         array(
                             'access_token' => Yii::$app->session->get('token'),
                             'params' => 'ds_create_agr',
