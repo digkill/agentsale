@@ -20,7 +20,8 @@
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-jui": "*",
         "kartik-v/yii2-widget-select2": "1.*",
-        "kartik-v/yii2-widget-depdrop": "1.*"
+        "kartik-v/yii2-widget-depdrop": "1.*",
+        "kartik-v/yii2-krajee-base": "<=1.7.4"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
