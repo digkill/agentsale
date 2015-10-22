@@ -9,8 +9,8 @@ namespace app\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\web\Controller; 
-use yii\helpers\Json; 
+use yii\web\Controller;
+use yii\helpers\Json;
 use app\models\LoginForm;
 use app\models\RequestForm;
 use app\models\BillingRequests;
@@ -44,7 +44,7 @@ class SiteController extends Controller {
         ];
     }
 
-    public function actions() { 
+    public function actions() {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
@@ -112,14 +112,6 @@ class SiteController extends Controller {
 JS;
         $this->getView()->registerJs($js);
 
-        $this->getView()->registerJsFile('//poll.domru.ru/api/v1/qRequest.js', ['position' => \yii\web\View::POS_END]);        
-        $this->getView()->registerJs("var qReq = new qRequest('" . Yii::$app->session->get('domain') . "', '" . Yii::$app->user->identity->username . "', 'SaleAgent');
-            qReq.init();
-            qReq.setReminder(1);
-            qReq.getRandom();",
-            \yii\web\View::POS_END
-        );
-        
         $formData = Yii::$app->session->get('formData');
         if(isset($formData['street_name']))
             $this->getView()->registerJs("EYii.val=$.parseJSON('" . json_encode(array('street_id' => $formData['street'], 'street_name' => $formData['street_name'], 'house_number' => $formData['RequestForm']['house'])) . "')");
