@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "062734042d70067635665d29a69cd2c2",
-    "content-hash": "838a7a25f2c5badfa23758b0cb3f28d6",
+    "hash": "36586c075aae59611539debae077bf35",
+    "content-hash": "307d0ccef2aa487c86e2666c76cccf4d",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -386,16 +386,16 @@
         },
         {
             "name": "kartik-v/yii2-krajee-base",
-            "version": "v1.7.4",
+            "version": "v1.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "01e9fa8c19970070d0aba5b16a7bfd8c241bc7f9"
+                "reference": "2b1d3cafd3864d3ecf3e16db69256dd967fe911d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/01e9fa8c19970070d0aba5b16a7bfd8c241bc7f9",
-                "reference": "01e9fa8c19970070d0aba5b16a7bfd8c241bc7f9",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/2b1d3cafd3864d3ecf3e16db69256dd967fe911d",
+                "reference": "2b1d3cafd3864d3ecf3e16db69256dd967fe911d",
                 "shasum": ""
             },
             "require": {
@@ -428,7 +428,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2015-02-13 03:36:35"
+            "time": "2015-05-03 08:11:52"
         },
         {
             "name": "kartik-v/yii2-widget-depdrop",
