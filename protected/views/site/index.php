@@ -88,7 +88,7 @@ SCRIPT;
                                     'url' => $url,
                                     'dataType' => 'json',
                                     'data' => new JsExpression('function(params) { return {search:params.term}; }'),
-                                    'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
+                                    'results' => new JsExpression('function(data,page) { return {results:data}; }'),
                                 ],
                                 'initSelection' => new JsExpression($initScript)
                             ],
