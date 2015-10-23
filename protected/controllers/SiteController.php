@@ -562,7 +562,7 @@ JS;
                         $streets['results'][] = array('id' => $street->street_id, 'text' => $street->street_name);
                     }
                 }        
-            }
+            } 
             echo Json::encode($streets);
         } else
             return $this->redirect('/');
