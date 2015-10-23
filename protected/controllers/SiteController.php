@@ -326,8 +326,6 @@ JS;
         $this->getView()->registerJsFile(Yii::$app->assetManager->publish($rootPath . '/plugins/ladda-bootstrap/js/ladda.js')[1]);
         $this->getView()->registerJs('$(function(){Ladda.bind("#send-btn");});');
 
-        print_r($dataArray);
-        
         return $this->render('confirm', array('data' => $dataArray));
     }
     
