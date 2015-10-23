@@ -7,7 +7,6 @@ use yii\bootstrap\ActiveForm;
 /* @var $this yii\web\View */
 $this->title = 'Подтверждение заявки';
 $this->params['breadcrumbs'][] = $this->title;
-//print_r($data);
 ?>
 <div class="site-about lead">
     <div class="body-content container">
