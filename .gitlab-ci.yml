@@ -16,7 +16,6 @@ before_script:
   - export SHARED_DIR=${SHARED_DIR_BASE}/${PROJECT_GROUP}/${PROJECT_NAME}/${CI_BUILD_REF_NAME}
   - export PROJECT_DIR=${BUILD_DIR}/${PROJECT_GROUP}/${PROJECT_NAME}/${CI_BUILD_REF_NAME}
   - export CONTAINER_PRJ="`echo ${PROJECT_GROUP}${PROJECT_NAME}${CI_BUILD_REF_NAME}|sed 's/-//g'`"
-  - sudo chown $USER -R ${BUILD_DIR}/ #make sure we own builds directory
   - env
 
 stages:
