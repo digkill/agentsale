@@ -14,16 +14,16 @@ use yii\base\Model;
 
 
 class BillingRequests extends Model {
-    
+
     /**
      * Возвращает список домов по заданной улице
-     * 
+     *
      * @param int $street_id
      * @return array
      */
     public function getHouses($street_id) {
 
-        $domain = Yii::$app->session->get('domain');        
+        $domain = Yii::$app->session->get('domain');
 
         $billingResult = Yii::$app->billing
                 ->domain($domain)
@@ -31,24 +31,24 @@ class BillingRequests extends Model {
                 ->package('get_agr_for_client')
                 ->procedure('house_list')
                 ->data(array('street_id$i' => $street_id))
-                ->fire();       
-		
+                ->fire();
+
         $houseList = array();
-        
+
         if (isset($billingResult->houses) && ($billingResult != false)) {
-            foreach ($billingResult->houses->house as $home) {           
-                $houseList[(string)$home->house_id] = (string)$home->house_number;                
+            foreach ($billingResult->houses->house as $home) {
+                $houseList[(string)$home->house_id] = (string)$home->house_number;
             }
         }
-        
+
         asort($houseList);
-        
-        return $houseList;       
+
+        return $houseList;
     }
-    
+
     /**
      * Проверка адреса
-     * 
+     *
      * @param array $data
      * @return object
      */
@@ -61,7 +61,7 @@ class BillingRequests extends Model {
 
     /**
      * Преобразование адреса в нужный формат
-     * 
+     *
      * @param string $house
      * @return array
      */
@@ -84,7 +84,7 @@ class BillingRequests extends Model {
 
     /**
      * Проверка адреса на возможность подключения
-     * 
+     *
      * @param array $data
      * @param string $city
      * @return object
@@ -101,10 +101,10 @@ class BillingRequests extends Model {
                     ->fire(true);
         return $query;
     }
-    
+
     /**
      * Получение пакетов услуг
-     * 
+     *
      * @param string $token
      * @return array
      */
@@ -124,13 +124,13 @@ class BillingRequests extends Model {
                         )
                 )
                 ->fire();
-        
+
         return $this->objectToArray($query);
     }
-    
+
     /**
      * Получение оборудования
-     * 
+     *
      * @param string $token Токен доступа
      * @param int $street ID улицы
      * @param int $house_num Номер дома
@@ -144,11 +144,11 @@ class BillingRequests extends Model {
 
     $house = $this->_dissectAddress($house_num);
     $house_num = $house['house_num'];
-    if(isset($house['building']) && !empty($house['building'])) 
+    if(isset($house['building']) && !empty($house['building']))
         $house_build = $house['building'];
     else
         $house_build = '';
-        
+
     $query = Yii::$app->billing
                 ->domain(Yii::$app->session->get('domain'))
                 ->alias('es_webface')
@@ -163,10 +163,10 @@ class BillingRequests extends Model {
                         )
                 )
                 ->fire();
-        
+
         return $this->objectToArray($query);
     }
-    
+
     /**
      * Валидация номера договора в биллинге
      * @param int $agreement_number
@@ -174,7 +174,7 @@ class BillingRequests extends Model {
      * @return array
      */
     public function Checkagreement($agreement_number, $agr_pack_id) {
-        
+
         $query = Yii::$app->billing
                 ->domain(Yii::$app->session->get('domain'))
                 ->alias('es_webface')
@@ -188,14 +188,14 @@ class BillingRequests extends Model {
                             'param_values_arr$c' => "{$agreement_number},{$agr_pack_id}"
                         )
                 )
-                ->fire();        
-        
-        
+                ->fire();
+
+
         return $this->objectToArray($query);
     }
-    
+
     public function sendRequest($data) {
-        
+
         if(!isset($data['client_phone_extra']) || empty($data['client_phone_extra'])) $data['client_phone_extra'] = '-1';
         if(!isset($data['materials_ens_id_int']) || empty($data['materials_ens_id_int'])) $data['materials_ens_id_int'] = '-1';
         if(!isset($data['materials_ens_id_tv']) || empty($data['materials_ens_id_tv'])) $data['materials_ens_id_tv'] = '-1';
@@ -204,21 +204,21 @@ class BillingRequests extends Model {
         $data['comment'] = self::_encodeTo($data['comment']);
         $house = $this->_dissectAddress($data['house_num']);
         $data['house_num'] = $house['house_num'];
-        if(isset($house['building']) && !empty($house['building'])) 
+        if(isset($house['building']) && !empty($house['building']))
             $data['house_build'] = $house['building'];
         else
             $data['house_build'] = '';
-       
+
         if(!isset($data['agreementNumber']) || (isset($data['agreementNumber']) && empty($data['agreementNumber']))) {
             $data['agreementNumber'] = '-1';
         }
-        
+
         if(!isset($data['comment']) || (isset($data['comment']) && empty($data['comment']))) {
             $data['comment'] = '0';
         }
-        
+
         set_time_limit(180);
-        
+
         $query = Yii::$app->billing
                 ->domain(Yii::$app->session->get('domain'))
                 ->alias('es_webface')
@@ -232,11 +232,11 @@ class BillingRequests extends Model {
                             'param_values_arr$c' => "{$data['street']},{$data['house_num']},{$data['office']},{$data['client_name']},{$data['client_phone']},{$data['agr_pack_id']},{$data['comment']},{$data['client_phone_extra']},{$data['agreementNumber']},{$data['materials_ens_id_int']},{$data['materials_ens_id_tv']},{$data['house_build']}"
                         )
                 )
-                ->fire();        
-                            
+                ->fire();
+
         return $query;
     }
-    
+
     /**
      * Convert an object to an array
      *
@@ -253,7 +253,7 @@ class BillingRequests extends Model {
         }
         return array_map(array($this, 'objectToArray'), $object);
     }
-    
+
     /**
      * Кодирование строки в указанную кодировку
      * @param string $sting Строка
@@ -263,5 +263,5 @@ class BillingRequests extends Model {
     static function _encodeTo($sting, $encoding = 'windows-1251') {
         return iconv(mb_detect_encoding($sting, mb_detect_order(), true), $encoding, $sting);
     }
-    
+
 }
