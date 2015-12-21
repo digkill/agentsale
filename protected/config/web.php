@@ -21,7 +21,7 @@ $config = [
                 'lifetime' => 60 * 60 * 24 * 40,
             ],
             'timeout' => 60 * 60 * 24 * 40,
-        ],
+        ],        
         'sessionCache' => [
             'class' => 'yii\caching\MemCache',
             'servers' => array(

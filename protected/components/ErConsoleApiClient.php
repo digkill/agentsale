@@ -1,6 +1,6 @@
 <?php
-namespace app\components; 
-  
+namespace app\components;
+
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
@@ -9,10 +9,10 @@ use yii\base\Exception;
  * Класс реализует взаимодействие с ErConsole
  * @author Ланин Максим <lanin.me>
  * @author Штин Антон <anthony.shtin@gmail.com> Yii портирование
- * 
+ *
  * Использование:
  * Yii::$app->erconsole->makeRequest('geography/cities/about');
- * 
+ *
  * Для эльфов:
  *  try {
  *    // Инициализируем объект ApiClient
@@ -53,17 +53,17 @@ class ErConsoleApiClient extends Component {
      */
     public function init() {
         parent::init();
-        $this->setCache();        
-        $this->setCity(Yii::$app->session->get('domain')); 
-    }    
+        $this->setCache();
+        $this->setCity(Yii::$app->session->get('domain'));
+    }
 
     /**
      * устаналвиваем город
      * @param type $city
      */
     public function setCity($city = '') {
-        $this->_city = $city;    
-        $this->setResource($this->_city); 
+        $this->_city = $city;
+        $this->setResource($this->_city);
         return $this;
     }
 
@@ -71,14 +71,13 @@ class ErConsoleApiClient extends Component {
      * устанвлаиваем адрес для общения с Er-console
      * @param type $city
      */
-    private function setResource($city = '') {                                
-                
-        
+    private function setResource($city = '') {
+
         if (!empty($city)) {
             $this->_resource = str_replace('{domain}', $city . '.', $this->_resourceTemplate);
         } else {
             $this->_resource = str_replace('{domain}', '', $this->_resourceTemplate);
-        }                        
+        }
 
         return $this;
     }
@@ -107,12 +106,12 @@ class ErConsoleApiClient extends Component {
      * @param string $requestType
      *      Тип запроса GET/POST. По умолчанию GET
      * @param integer $cacheTime
-     *      Время жизни кэша запроса     
+     *      Время жизни кэша запроса
      * @return stdClass
      * @throws CException
      */
     public function makeRequest($method = '', array $params = array('id' => array(3, 13, 78)), $requestType = 'GET', $cacheTime = 86400) {
-        
+
         $this->_method = $method;
         $this->_params = $params;
         $this->_requestType = $requestType;

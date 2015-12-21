@@ -24,7 +24,7 @@ AppAsset::register($this);
     </script>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <script type="text/javascript">var packagesData = {}</script>    
+    <script type="text/javascript">var packagesData = {}</script>
 </head>
 <body>
 
@@ -33,16 +33,16 @@ AppAsset::register($this);
         <?php
             if(isset($_SERVER["REQUEST_URI"]) && $_SERVER["REQUEST_URI"] != '/login') {
                 NavBar::begin([
-                    'brandLabel' => isset(Yii::$app->params['cities'][Yii::$app->session->get('domain')]) ? Yii::$app->params['cities'][Yii::$app->session->get('domain')] : '',
+                    'brandLabel' => Yii::$app->session->get('currentCityName'),
                     'brandUrl' => Yii::$app->homeUrl,
                     'options' => [
                         'class' => 'navbar navbar-default navbar-fixed-top',
                     ],
                 ]);
-                
+
                 echo Nav::widget([
                     'options' => ['class' => 'navbar-nav navbar-right'],
-                    'items' => [                    
+                    'items' => [
                         Yii::$app->user->isGuest ?
                             ['label' => 'Вход', 'url' => ['/site/login']] :
                             ['label' => 'Выход (' . Yii::$app->user->identity->username . ')',
@@ -53,7 +53,7 @@ AppAsset::register($this);
                 NavBar::end();
             }
         ?>
-        <div class="container">            
+        <div class="container">
             <?php print $content; ?>
         </div>
     </div>

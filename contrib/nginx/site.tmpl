@@ -1,30 +1,20 @@
 upstream backend-${TEST_URL} {
     server 127.0.0.1:${WEB1_EXPOSE_PORT};
-    server 127.0.0.1:${WEB2_EXPOSE_PORT};
 }
 
 
 server {
-        listen 80;
-        root ${PROJECT_DIR}/data;
-        index index.html index.php;
-        server_name ${TEST_URL} ${CI_BUILD_REF_NAME}.${PROJECT_NAME};
-        location / { if (!-e $request_filename){ rewrite ^(.*)$ /index.php; } }
-        location ~ \.php$ {
-                include fastcgi.conf;
-                include fastcgi_params;
-                add_header X-Backend-Server $upstream_addr;
-                fastcgi_pass backend-${TEST_URL};
-        }
-
-        access_log /var/log/services/nginx/${PROJECT_DIR_SUFFIX}/access.log;
-        error_log /var/log/services/nginx/${PROJECT_DIR_SUFFIX}/nginx-error.log info;
+    server_name ${TEST_URL} ${CI_BUILD_REF_NAME}.${PROJECT_NAME};
+    listen 80;
+    location / {
+        rewrite ^(.*)$ https://${TEST_URL}$1 permanent;
+    }
 }
 
 server {
         listen 443;
         root ${PROJECT_DIR}/data;
-        index index.html index.php;
+        index index.php;
         server_name ${TEST_URL} ${CI_BUILD_REF_NAME}.${PROJECT_NAME};
 
         ssl on;

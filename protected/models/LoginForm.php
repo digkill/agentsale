@@ -120,20 +120,13 @@ class LoginForm extends Model
      */
     public function getCities() {
 
-        $cities = Yii::$app->erconsole->makeRequest('geography/cities/list');
-
         //город для входа
         $citydomain = Yii::$app->params['city'];
 
         if (YII_DEBUG) {
-            array_unshift($cities->result, (object) array(
-                        'name' => 'testing2',
-                        'domain' => 'testing2',
-            ));
-            array_unshift($cities->result, (object) array(
-                        'name' => 'testing',
-                        'domain' => 'testing',
-            ));
+            $cities = Yii::$app->erconsole->makeRequest('geography/cities/list', ['mode' => 'full']);
+        } else {
+            $cities = Yii::$app->erconsole->makeRequest('geography/cities/list');
         }
 
         // отмечаем город, в котором находимся
