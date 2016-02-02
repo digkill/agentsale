@@ -39,9 +39,6 @@ Deploy to fpm:
 
     - docker exec ${CONTAINER_PRJ}_web1_1 composer global require "fxp/composer-asset-plugin:~1.1.1"
     - docker exec ${CONTAINER_PRJ}_web1_1 composer install --working-dir protected
-    - docker exec ${CONTAINER_PRJ}_web1_1 php init --env=Development --overwrite=all
-    - docker exec ${CONTAINER_PRJ}_web1_1 php yii rbac/init
-    - docker exec ${CONTAINER_PRJ}_web1_1 php yii migrate --migrationPath=@yii/log/migrations/ --interactive=0
     - sudo rm -rf frontend/runtime
     - sudo mkdir frontend/runtime
     - sudo chmod 777 -R frontend/runtime 
