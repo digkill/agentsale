@@ -1,11 +1,8 @@
 variables:
   BUILD_DIR: '/var/www/builds'
   BUILD_HOST: 't2.ertelecom.ru'
-  DEMO_LIFE_TIME: '86400'
-  DNS_SERVER: '127.0.0.1'
-  DNS_KEY_FILE: '/etc/bind/Kdnsupdater.+157+63773.private'
   SHARED_DIR_BASE: '/var/shared'
-  FPM_IMAGE: 'dhub.ertelecom.ru/zhakov/php:5.4-fpm_2015_10_27_mysqli'
+  FPM_IMAGE: 'dhub.ertelecom.ru/zhakov/php:5.4-fpm'
   MEMCACHE_IMAGE: 'memcached:1.4'
   MONGO_IMAGE: 'mongo:3.1'
 
@@ -13,7 +10,6 @@ before_script:
   - export PROJECT_NAME=`basename $CI_PROJECT_DIR|sed s/\\\./-/`
   - export PROJECT_GROUP=`echo $CI_PROJECT_DIR | awk -F'/' '{print $(NF-1)}' | tr 'A-Z' 'a-z'`
   - export TEST_URL=${CI_BUILD_REF_NAME}.${PROJECT_NAME}.${PROJECT_GROUP}.${BUILD_HOST}
-  - export MY_IP=`ip r get 8.8.8.8|grep src|awk '{print $7}'`
   - export PROJECT_DIR_SUFFIX=${PROJECT_GROUP}/${PROJECT_NAME}/${CI_BUILD_REF_NAME}
   - export SHARED_DIR=${SHARED_DIR_BASE}/${PROJECT_GROUP}/${PROJECT_NAME}/${CI_BUILD_REF_NAME}
   - export PROJECT_DIR=${BUILD_DIR}/${PROJECT_GROUP}/${PROJECT_NAME}/${CI_BUILD_REF_NAME}
@@ -29,7 +25,7 @@ Deploy to fpm:
   script:
     - mkdir -p ${SHARED_DIR}
     - mkdir -p ${PROJECT_DIR} # create project ref build
-    - rsync -ra --exclude .git . ${PROJECT_DIR}/   #sync project ref
+    - sudo rsync -ra --exclude .git . ${PROJECT_DIR}/   #sync project ref
     - ssh-keyscan -p 10022 gitlab.ertelecom.ru > ~/.ssh/known_hosts
     - cd ${PROJECT_DIR}
     - mkdir -p ${PROJECT_DIR}/config
@@ -41,11 +37,15 @@ Deploy to fpm:
     - export upstream_addr=\$upstream_addr #envsubst eats my variable. that cant be changed. http://stackoverflow.com/questions/2914220/
     - envsubst < ${PROJECT_DIR}/contrib/nginx/site.tmpl > ${PROJECT_DIR}/config/site.cfg
 
-    - docker exec ${CONTAINER_PRJ}_web1_1 php -r "readfile('https://getcomposer.org/installer');" | php
-    - docker exec ${CONTAINER_PRJ}_web1_1 php ${PROJECT_DIR}/config/composer.phar global require "fxp/composer-asset-plugin:~1.1.1"
-    - docker exec ${CONTAINER_PRJ}_web1_1 php ${PROJECT_DIR}/config/composer.phar install --working-dir protected
-    - docker exec ${CONTAINER_PRJ}_web1_1 env
-
+    - docker exec ${CONTAINER_PRJ}_web1_1 composer global require "fxp/composer-asset-plugin:~1.1.1"
+    - docker exec ${CONTAINER_PRJ}_web1_1 composer install
+    - docker exec ${CONTAINER_PRJ}_web1_1 php init --env=Development --overwrite=all
+    - docker exec ${CONTAINER_PRJ}_web1_1 php yii rbac/init
+    - docker exec ${CONTAINER_PRJ}_web1_1 php yii migrate --migrationPath=@yii/log/migrations/ --interactive=0
+    - sudo rm -rf frontend/runtime
+    - sudo mkdir frontend/runtime
+    - sudo chmod 777 -R frontend/runtime 
+    
     - cd ${PROJECT_DIR}
     - sudo chmod 777 -R data/assets
     - sudo chmod 777 -R protected/runtime
