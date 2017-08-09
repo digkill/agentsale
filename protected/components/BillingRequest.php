@@ -9,42 +9,12 @@ use yii\base\Exception;
 use yii\base\Model;
 use app\extensions\ECurl;
 
-/**
- * Класс, реализующий интерфейс для общения с биллингом
- * пример получения данных с
- * https://testing.db.ertelecom.ru/cgi-bin/ppo/excells/web_cabinet.table_data?table_name$c=plan_prices&foreign_key$i=16721
- *
- * Обращение к компоненту
- *  Yii::$app->billing
- *           ->domain('perm') // смена домена
- *           ->useGET() // использовать метод get
- *           ->usePOST() // использовать метод post
- *           ->package('web_cabinet') // смена пакета
- *           ->alias('excells') // смена алиаса
- *           ->procedure('table_data') // смена процедуры
- *           ->data(array('table_name$c'=>'plan_prices','foreign_key$i' => '16721')) // массив данных
- * 			 ->offSetFlash() // отключаем вывод ошибки (setFlash) *           
- *           ->fire(); // выполнить запрос, вызывать после того как запрос сформирован, возвращает simpleXMLObject
- *  Yii::$app->billing->reset(); // метод reset сбрасывает все установленные настройки запроса и возвращает его в исходное состояние, return $this.
- *
- *  Yii::$app->billing->result;  // результат запроса simpleXMLObject (если не был вызван reset())
- *
- *  Yii::$app->billing->queries; // получить все запросы сделанные экземпляром класса.
- *
- *  Yii::$app->billing::convertXmlObjToArr($simpleXMLObject, &$arrayOut); //Конвертирует объект simple_xml в массив
- */
+
 class BillingException extends Exception {
 
     public function __construct($message) {
         \Yii::error($message);
     }
-    
-    /*public function __construct($message) {
-        $name = isset(Yii::$app->user->name) ? Yii::$app->user->name : 'guest';
-        $domain = isset(Yii::$app->params['advanced']) && isset(Yii::$app->params['advanced']->billing_domain) ? Yii::$app->params['advanced']->billing_domain : 'unknown';
-        $city = isset(Yii::$app->params['city']) ? Yii::$app->params['city'] : 'unknown';
-        Yii::log($message . ' || User: ' . $name . ' Billing_Domain: ' . $domain . ' City: ' . $city, 'error', 'BILLING_ERROR');
-    }*/
 
 }
 
@@ -114,10 +84,7 @@ class BillingRequest extends Model {
         parent::init();
         $this->connectCurl();
         $this->query = $this->default_query;
-        //@todo зачем это, если аналогичная операция производится в конструкторе?
-        /*if (isset(Yii::$app->params['advanced']->billing_domain)) {
-            $this->query['domain'] = Yii::$app->params['advanced']->billing_domain;
-        }*/
+
     }
 
     /**

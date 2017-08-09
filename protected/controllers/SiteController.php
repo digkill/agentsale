@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @author <votinov.mn@domru.ru>
- */
-
 namespace app\controllers;
 
 use Yii;

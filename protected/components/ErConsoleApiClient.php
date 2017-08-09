@@ -5,23 +5,7 @@ use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\base\Exception;
-/**
- * Класс реализует взаимодействие с ErConsole
- * @author Ланин Максим <lanin.me>
- * @author Штин Антон <anthony.shtin@gmail.com> Yii портирование
- *
- * Использование:
- * Yii::$app->erconsole->makeRequest('geography/cities/about');
- *
- * Для эльфов:
- *  try {
- *    // Инициализируем объект ApiClient
- *    $apiObject = new ApiClient('perm', array('user'   => 'admin', 'api_id' => '123'));
- *    // Делаем запрос к АПИ
- *    $request = $apiObject->makeRequest('get/something', array('id' => array(3, 13, 78)), 'GET', 86400);
- *  } catch (CException $exc) {
- *    print $exc->getMessage();
- * } */
+
 class ApiClientException extends Exception {
 
     public function __construct($message) {
@@ -35,7 +19,7 @@ class ErConsoleApiClient extends Component {
     public $_auth = array('user' => '', 'api_id' => '');
     public $_city = '';
     // private $_resourceTemplate = 'http://{domain}console.testing.ertelecom.ru/api';
-    private $_resourceTemplate = 'http://{domain}console.ertelecom.ru/api';
+    private $_resourceTemplate = 'http://{domain}/api';
     private $_resource = '';
     private $_url = '';
     private $_method = '';

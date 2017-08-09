@@ -1,10 +1,6 @@
 <?php
 
 /**
- * @author <votinov.mn@domru.ru>
- */
-
-/**
  * Взаимодействие с биллингом
  */
 namespace app\models;
